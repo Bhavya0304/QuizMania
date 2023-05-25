@@ -1,0 +1,272 @@
+﻿@model QuizMania.DBContext.Quiz
+@{
+    ViewBag.Title = "Play";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .quiz {
+        border: 1px solid;
+        border-bottom-left-radius: 50px;
+        border-top-right-radius: 50px;
+        padding: 50px;
+        box-shadow: 10px 16px;
+    }
+
+    .clicks {
+        margin: 20px;
+        padding: 5px;
+        background-color: white;
+        border: 1px solid;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+    }
+
+    .active {
+        background-color: yellow;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    /* .next-btn {
+        font-size: x-large;
+    }
+
+        .next-btn:hover {
+            border: 1px solid black;
+        }
+
+    .btn-prev {
+        font-size: x-large;
+    }
+
+        .btn-prev:hover {
+            border: 1px solid black;
+        }
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #4d5bf9;
+        font-family: "Trirong", serif;
+        font-size: 20px
+    }
+
+    .container {
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        top: 100px;
+        background-color: #ffffff;
+    }
+
+    .tabs {
+        display: grid;
+        justify-content: space-evenly;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+
+
+    .downer {
+        background-color: #ffffff;
+        padding: 50px 40px;
+    }
+
+    .tabs .active {
+        background-color: hotpink;
+        color: #4d5bf9;
+    }
+
+    input[type=radio]:checked {
+        -webkit-appearance: none;
+        border-radius: 50%;
+        background: #FF572233;
+        border: 3px solid #b0b0bf;
+        box-shadow: 0 0 0 3px #FF5722;
+    }
+
+    .options {
+        margin-left: 43%;
+    }*/
+</style>
+
+
+
+<div class="container quiz">
+    <div class="tabs upper d-flex">
+        @Html.HiddenFor(x => x.Id, new { id="QuizId" })
+        @foreach (var item in Model.Questions)
+        {
+            <div class="clicks clickable-1 @(Model.Questions.First().Id == item.Id ? "active":"") " data-val="@item.Id"></div>
+        }
+
+    </div>
+
+    <div class="downer">
+        @foreach (var item in Model.Questions)
+        {
+            <div class="options">
+                <div class=" @(Model.Questions.First().Id == item.Id ? "show":"hide") radio-btn" id="@item.Id">
+                    <p>@item.Question1</p><br />
+                    @foreach (var option in item.Options)
+                    {
+
+                        <input type="radio" name="@("ques" + item.Id)" class="radioBtn" data-val="@option.Id" value=" @option.Option1" /> @option.Option1<br />
+                    }
+
+
+
+                </div>
+            </div>
+        }
+
+        <div class="controls">
+            <button class="btn btn-prev" onclick="prev()">⬅</button>
+            <button onclick="move()" class="next-btn btn">➡</button>
+            <button class="hide submit-btn btn btn-dark-light" onclick="submit()">submit</button>
+        </div>
+    </div>
+</div>
+
+@*<div class="container show-data">
+        <input type="button" class="btn btn-primary" value="Play Again" onclick="playAgain()" />
+    </div>*@
+@section scripts {
+
+
+    <script>
+        var arr = [];
+        $(document).ready(() => {
+            $(".next-btn").attr("disabled", "true");
+            $(".btn-prev").attr("disabled", "true");
+            $(".show-data").hide();
+        })
+        $("body").on("click", ".radioBtn", function () {
+            $(".next-btn").prop("disabled", false)
+        })
+        function move() {
+            $(".btn-prev").removeAttr("disabled");
+            var active = document.querySelector('.active');
+            var quesId = active.getAttribute("data-val");
+            var downer = document.querySelector('.downer .show  input[type="radio"]:checked');
+            var optionId = downer.getAttribute("data-val");
+            console.log(quesId);
+            console.log(optionId);
+            
+            arr.push({
+                quesId: quesId,
+                optionId: optionId,
+            });
+            localStorage.setItem('answers', JSON.stringify(arr));
+            $(".next-btn").attr("disabled", "true");
+            var active = document.querySelector('.active');
+            var next = active.nextElementSibling;
+            console.log(arr);
+            if (next.nextElementSibling == undefined) {
+                $(".next-btn").hide();
+                $(".btn-prev").hide();
+                $(".submit-btn").show();
+
+            }
+            active.classList.remove('active');
+            next.classList.add('active');
+            var newid = next.getAttribute('data-val');
+            var downer = document.querySelectorAll('.downer  .options div');
+            Array.from(downer).forEach((ele) => {
+                ele.setAttribute('class', 'hide');
+            })
+            document.getElementById(newid).setAttribute('class', 'show');
+        }
+
+
+        function prev() {
+            $(".submit-btn").hide();
+            $(".next-btn").show();
+            var prevEle = document.querySelector('.active').previousElementSibling;
+            var newid = prevEle.getAttribute('data-val');
+            var downer = document.querySelectorAll('.downer  .options div');
+            Array.from(downer).forEach((ele) => {
+                ele.setAttribute('class', 'hide');
+            })
+            document.getElementById(newid).setAttribute('class', 'show');
+            arr.pop();
+
+            var active = document.querySelector('.active');
+            var prev = active.previousElementSibling;
+            var last = active.previousElementSibling.previousElementSibling;
+            console.log(arr)
+            active.classList.remove('active');
+            prev.classList.add('active');
+
+            if (last == undefined) {
+                $(".btn-prev").attr("disabled", "true");
+                return;
+            }
+
+
+        }
+
+        function submit() {
+
+            var ques1 = $('.show input:checked').val()
+            if (ques1 == undefined) {
+
+
+            }
+            else {
+                var active = document.querySelector('.active');
+                var quesId = active.getAttribute("data-val");
+                var downer = document.querySelector('.downer .show  input[type="radio"]:checked');
+                var optionId = downer.getAttribute("data-val");
+                console.log(quesId);
+                console.log(optionId);
+
+                arr.push({
+                    quesId: quesId,
+                    optionId: optionId,
+                });
+                localStorage.setItem('answers', JSON.stringify(arr));
+                var obj = JSON.parse(localStorage.getItem('answers'))
+                console.log(obj)
+                var response = {
+                    QuizId: $('#QuizId').val(),
+                    ResponseLists: obj.map((ele) => {
+                        ele.quesId = parseInt(ele.quesId);
+                        ele.optionId = parseInt(ele.optionId);
+                        return ele;
+                    })
+                }
+                    $.ajax({
+                        url: "/Quiz/Play",
+                        type: "POST",
+                        data: response,
+                        success: (resp) => {
+                            console.log(resp)
+                            location.href = resp;
+                        }
+                    })
+                }
+            }
+
+        
+
+
+        function playAgain() {
+            $("input[type=radio]").prop('checked', false)
+            location.reload();
+            localStorage.removeItem("Values");
+        }
+    </script>
+
+}

@@ -1,0 +1,16 @@
+﻿@model QuizMania.DBContext.Quiz
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create Quiz</h1>
+<div class="row">
+    <div class="col-6">
+        <form method="post">
+            @Html.TextBoxFor(x => x.QuizName, new { @class = "form-control", @placeholder = "QuizName" })<br />
+            <input type="submit" value="Submit" class="btn btn-dark-light"/>
+        </form>
+    </div>
+</div>
+

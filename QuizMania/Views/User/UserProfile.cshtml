@@ -1,0 +1,32 @@
+﻿@model QuizMania.DBContext.User
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("UserProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row m-3">
+        <div class="col-lg-4">
+            <label>Name</label>
+        </div>
+        <div class="col-lg-8">@Html.TextBoxFor(x => x.Name, new { @class = "form-control" })</div>
+    </div>
+    <div class="row m-3">
+        <div class="col-lg-4">
+            <label>NickName</label>
+        </div>
+        <div class="col-lg-8">@Html.TextBoxFor(x => x.NickName, new { @class = "form-control" })</div>
+    </div>
+    <div class="row m-3">
+        <div class="col-lg-4">
+            <label>Profile Photo</label>
+        </div>
+        <div class="col-lg-8">@Html.TextBoxFor(x => x.ProfilePic, new { @class = "form-control", type="file" })</div>
+    </div>
+    <div class="m-3 text-center">
+        <button class="btn btn-outline-dark w-25" type="submit">Save</button>
+    </div>
+}
+
+ 

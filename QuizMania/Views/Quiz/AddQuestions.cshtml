@@ -1,0 +1,47 @@
+﻿@model QuizMania.Models.Question
+@{
+    ViewBag.Title = "AddQuestions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Add Question</h1>
+<form method="post">
+
+    <div class="row">
+        <div class="col-12">
+
+            <input type="hidden" value="@ViewBag.QuizId" name="QuizId" />
+            <label class="label">Question</label>
+            @Html.TextBoxFor(x => x.QuestionName, new { @class = "form-control" })
+        </div>
+        <div class="col-6">
+            <label class="label">Option 1</label>
+            @Html.RadioButtonFor(x => x.Answer, "")
+            @Html.TextBoxFor(x => x.Options[0].OptionName, new { @class = "form-control" })
+        </div>
+        <div class="col-6">
+            <label class="label">Option 2</label>
+            @Html.RadioButtonFor(x => x.Answer, "")
+            @Html.TextBoxFor(x => x.Options[1].OptionName, new { @class = "form-control" })
+        </div>
+        <div class="col-6">
+            <label class="label">Option 3</label>
+            @Html.RadioButtonFor(x => x.Answer, "")
+            @Html.TextBoxFor(x => x.Options[2].OptionName, new { @class = "form-control" })
+        </div>
+        <div class="col-6">
+            <label class="label">Option 4</label>
+            @Html.RadioButtonFor(x => x.Answer, "")
+            @Html.TextBoxFor(x => x.Options[3].OptionName, new { @class = "form-control" })
+        </div>
+    </div>
+    <input type="submit" class="btn btn-danger m-2" name="Save" value="Save And Next">
+    <input type="submit" class="btn btn-danger m-2" name="Save" value="Final Save">
+</form>
+@section Scripts{
+<script>
+    $("input[name='Answer']").change((event) => {
+        console.log(event.target.nextElementSibling.value)
+        event.target.value = event.target.nextElementSibling.value;
+    })
+</script>
+    } 

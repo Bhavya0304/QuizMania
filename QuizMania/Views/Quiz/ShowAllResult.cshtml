@@ -1,0 +1,29 @@
+﻿@model List<QuizMania.DBContext.Result>
+@{
+    ViewBag.Title = "ShowAllResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-6" id="printToPdf">
+
+            <div class="card bg-white" style="background-color:white;">
+                <div class="card-header bg-white">
+
+                    <h2>@item.Quiz.QuizName</h2>
+                </div>
+                <div class="card-body">
+                   Result: @item.TotalMarks / @item.OutOf
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="/Quiz/ShowResult/@item.Quiz.Id" class="btn btn-primary">Genrate Certificate</a>
+                </div>
+            </div>
+        </div>
+    }
+    
+</div>
+

@@ -1,0 +1,29 @@
+﻿@model List<QuizMania.DBContext.Quiz>
+@{
+    ViewBag.Title = "ShowAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<a href="/Quiz/Add" class="btn btn-info my-4">Add Quiz</a>
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-6">
+
+            <div class="card bg-white" style="background-color:white;">
+                <div class="card-header bg-white">
+
+                    <h2>@item.QuizName</h2>
+                </div>
+                <div class="card-body" >
+                    Total Ques. @item.Questions.Count
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="/Quiz/Play/@item.Id" class="btn btn-primary">Lets Play</a>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

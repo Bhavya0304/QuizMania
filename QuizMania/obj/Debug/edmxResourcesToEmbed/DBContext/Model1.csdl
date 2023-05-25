@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BJBhavyaJoshiNewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Option">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionId" Type="Int32" />
+    <Property Name="Option1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Question" Relationship="BJBhavyaJoshiNewModel.FK__Options__Questio__2C3393D0" FromRole="Option" ToRole="Question" />
+    <NavigationProperty Name="Questions" Relationship="BJBhavyaJoshiNewModel.FK__Questions__Answe__35BCFE0A" FromRole="Option" ToRole="Question" />
+  </EntityType>
+  <EntityType Name="Quiz">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="QuizName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Quiz__UserId__267ABA7A" FromRole="Quiz" ToRole="Users" />
+    <NavigationProperty Name="Results" Relationship="Self.FK__Result__QuizId__33D4B598" FromRole="Quiz" ToRole="Result" />
+    <NavigationProperty Name="Questions" Relationship="BJBhavyaJoshiNewModel.FK__Questions__QuizI__29572725" FromRole="Quiz" ToRole="Question" />
+  </EntityType>
+  <EntityType Name="Result">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="QuizId" Type="Int32" />
+    <Property Name="TotalMarks" Type="Int32" />
+    <NavigationProperty Name="Quiz" Relationship="Self.FK__Result__QuizId__33D4B598" FromRole="Result" ToRole="Quiz" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Result__UserId__32E0915F" FromRole="Result" ToRole="Users" />
+    <Property Name="OutOf" Type="Int32" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ProfilePic" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="NickName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Quizs" Relationship="Self.FK__Quiz__UserId__267ABA7A" FromRole="Users" ToRole="Quiz" />
+    <NavigationProperty Name="Results" Relationship="Self.FK__Result__UserId__32E0915F" FromRole="Users" ToRole="Result" />
+  </EntityType>
+  <Association Name="FK__Quiz__UserId__267ABA7A">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Quiz" Type="Self.Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Result__QuizId__33D4B598">
+    <End Role="Quiz" Type="Self.Quiz" Multiplicity="0..1" />
+    <End Role="Result" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="QuizId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Result__UserId__32E0915F">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Result" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BJBhavyaJoshiNewEntities" annotation:LazyLoadingEnabled="false">
+    <EntitySet Name="Options" EntityType="Self.Option" />
+    <EntitySet Name="Quizs" EntityType="Self.Quiz" />
+    <EntitySet Name="Results" EntityType="Self.Result" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK__Quiz__UserId__267ABA7A" Association="Self.FK__Quiz__UserId__267ABA7A">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Quiz" EntitySet="Quizs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Result__QuizId__33D4B598" Association="Self.FK__Result__QuizId__33D4B598">
+      <End Role="Quiz" EntitySet="Quizs" />
+      <End Role="Result" EntitySet="Results" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Result__UserId__32E0915F" Association="Self.FK__Result__UserId__32E0915F">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Result" EntitySet="Results" />
+    </AssociationSet>
+    <EntitySet Name="Questions" EntityType="BJBhavyaJoshiNewModel.Question" />
+    <AssociationSet Name="FK__Options__Questio__2C3393D0" Association="BJBhavyaJoshiNewModel.FK__Options__Questio__2C3393D0">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="Option" EntitySet="Options" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Questions__QuizI__29572725" Association="BJBhavyaJoshiNewModel.FK__Questions__QuizI__29572725">
+      <End Role="Quiz" EntitySet="Quizs" />
+      <End Role="Question" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Questions__Answe__35BCFE0A" Association="BJBhavyaJoshiNewModel.FK__Questions__Answe__35BCFE0A">
+      <End Role="Option" EntitySet="Options" />
+      <End Role="Question" EntitySet="Questions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuizId" Type="Int32" />
+    <Property Name="Question1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Mark" Type="Int32" />
+    <NavigationProperty Name="Options" Relationship="BJBhavyaJoshiNewModel.FK__Options__Questio__2C3393D0" FromRole="Question" ToRole="Option" />
+    <NavigationProperty Name="Quiz" Relationship="BJBhavyaJoshiNewModel.FK__Questions__QuizI__29572725" FromRole="Question" ToRole="Quiz" />
+    <Property Name="AnswerId" Type="Int32" />
+    <NavigationProperty Name="Option" Relationship="BJBhavyaJoshiNewModel.FK__Questions__Answe__35BCFE0A" FromRole="Question" ToRole="Option" />
+  </EntityType>
+  <Association Name="FK__Options__Questio__2C3393D0">
+    <End Type="BJBhavyaJoshiNewModel.Question" Role="Question" Multiplicity="0..1" />
+    <End Type="BJBhavyaJoshiNewModel.Option" Role="Option" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Option">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Questions__QuizI__29572725">
+    <End Type="BJBhavyaJoshiNewModel.Quiz" Role="Quiz" Multiplicity="0..1" />
+    <End Type="BJBhavyaJoshiNewModel.Question" Role="Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="QuizId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Questions__Answe__35BCFE0A">
+    <End Type="BJBhavyaJoshiNewModel.Option" Role="Option" Multiplicity="0..1" />
+    <End Type="BJBhavyaJoshiNewModel.Question" Role="Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Option">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="AnswerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

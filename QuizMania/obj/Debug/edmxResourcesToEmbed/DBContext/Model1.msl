@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BJBhavyaJoshiNewModelStoreContainer" CdmEntityContainer="BJBhavyaJoshiNewEntities">
+    <EntitySetMapping Name="Options">
+      <EntityTypeMapping TypeName="BJBhavyaJoshiNewModel.Option">
+        <MappingFragment StoreEntitySet="Options">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="Option1" ColumnName="Option" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quizs">
+      <EntityTypeMapping TypeName="BJBhavyaJoshiNewModel.Quiz">
+        <MappingFragment StoreEntitySet="Quiz">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="QuizName" ColumnName="QuizName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Results">
+      <EntityTypeMapping TypeName="BJBhavyaJoshiNewModel.Result">
+        <MappingFragment StoreEntitySet="Result">
+          <ScalarProperty Name="OutOf" ColumnName="OutOf" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="QuizId" ColumnName="QuizId" />
+          <ScalarProperty Name="TotalMarks" ColumnName="TotalMarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="BJBhavyaJoshiNewModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
+          <ScalarProperty Name="NickName" ColumnName="NickName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="BJBhavyaJoshiNewModel.Question">
+        <MappingFragment StoreEntitySet="Questions">
+          <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
+          <ScalarProperty Name="Mark" ColumnName="Mark" />
+          <ScalarProperty Name="Question1" ColumnName="Question" />
+          <ScalarProperty Name="QuizId" ColumnName="QuizId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
